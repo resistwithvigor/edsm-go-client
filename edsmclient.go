@@ -36,18 +36,19 @@ type EDSMClient struct {
 	UserAgent string
 }
 
-func GetEDSMServerStatus() ServerStatus {
+func GetEDSMServerStatus() (ServerStatus, error) {
 	client := NewEDSMClient(false, "edsmgoclient/0.0.1")
 	b := new([]byte)
 	response, err := client.request("GET", EDSMServerStatus, *b)
 	if err != nil {
 		logging.Error.Println("get server status error", err)
+		return ServerStatus{}, err
 	}
 	var m ServerStatus
 	errM := json.Unmarshal(response, &m)
 	if errM != nil {
 		logging.Error.Println("get server status error", errM)
 	}
-	return m
+	return m, err
 
 }
