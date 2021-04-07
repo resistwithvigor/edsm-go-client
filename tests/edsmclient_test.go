@@ -28,8 +28,9 @@ func TestNewEDSMClientDebug(t *testing.T) {
 }
 
 func TestGetEliteServerStatus(t *testing.T) {
-	status := edsm_go_client.GetEDSMServerStatus()
-	if len(status.Message) == 0 {
+	status, err := edsm_go_client.GetEDSMServerStatus()
+
+	if len(status.Message) == 0 || err != nil {
 		t.Errorf("Server Status incorrect. got: %s, wanted %s", status.Message, "OK")
 	} else {
 		t.Logf("Server status: %s", status.Message)
